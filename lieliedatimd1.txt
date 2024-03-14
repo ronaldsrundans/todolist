@@ -1,0 +1,23 @@
+Risinājums
+Vide: Hive
+CSV faila saturs (ID, Nosaukums, Kategorija, skaits noliktavā):
+1,HDD,memory,40
+2,SSD,memory,60
+3,MOBO,board,10
+4,PSU,power,15
+5,CPU,processor,45
+6,GPU,processor,25
+7,RAM,memory,35
+
+Komandas:
+sudo nano objekti.csv
+hive
+create database objekti; // We are creating a database
+show databases; // Shows the created database
+use objekti; // Sets office as the default database
+create table objekti
+>(Id INT, Nosaukums STRING, Kategorija STRING, Skaits INT)
+> row format delimited fields  terminated by ‘,’ ;
+                               [ Read 71 lines ]
+^G Help      ^O Write Out ^W Where Is  ^K Cut       ^T Execute   ^C Location
+^X Exit      ^R Read File ^\ Replace   ^U Paste     ^J Justify   ^/ Go To Line
