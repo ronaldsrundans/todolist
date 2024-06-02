@@ -1,0 +1,4 @@
+Kādā no programmēšanas valodām (Java, C, C++, Python, PHP) uzrakstīt kādas tīklu aplikācijas (web, spēle, e-pasts, SNMP novērošana, etc.) servera un klienta programmas.
+Pie tam servera programmai ir jāspēj vienlaicīgi apkalpot vairākus klientus (multi threading) un starp klientiem ir janotiek kaut kādai mijiedarbibai (respektīvi, lai identisku funkcionalitāti nevarētu panākt piestartējot pilngi neatkarīgu serveri katram klientam).
+Par triviālu chat-programmu varēs dabūt tikai 7 balles - lai dabūtu 8-10 balles, programmā jābūt kaut kam nedaudz oriģinālam (piem., neparasts web lietojums, paša realizēts kāds reāls tīkla protokols - SMTP, POP, SNMP,.. , interesanta aplikācija, UDP vai ICMP lietojums, sadarbība starp datoru un viedtālruni, etc. )
+Programma jāatrāda pasniedzējam personīgi līdz eksāmenam, līdzi ņemot 'source code' tekstus. Izstrādāto aplikāciju 'source code' jāiesniedz arī Moodle vidē.
