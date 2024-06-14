@@ -13,22 +13,29 @@ class Player():
     def draw(self, win):
         pygame.draw.rect(win, self.color, self.rect)
 
-    def move(self):
+    def move(self,win):
         keys = pygame.key.get_pressed()
+        #x1=self.x
 
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] and self.x > 0:
             self.x -= self.vel
 
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] and self.x < 500 - self.width:
             self.x += self.vel
 
-        if keys[pygame.K_UP]:
+        if keys[pygame.K_UP] and self.y > 0:
             self.y -= self.vel
 
-        if keys[pygame.K_DOWN]:
+        if keys[pygame.K_DOWN] and self.y < 500 - self.height:
             self.y += self.vel
+        
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height)) 
+        # it refreshes the window  
+        pygame.display.update() 
+  
 
         self.update()
 
     def update(self):
         self.rect = (self.x, self.y, self.width, self.height)
+        #pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height)) 
