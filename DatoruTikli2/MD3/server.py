@@ -3,7 +3,8 @@ from _thread import *
 from player import Player
 import pickle
 
-server = "192.168.0.103"
+server = "0.0.0.0"
+#"192.168.0.103"
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -17,7 +18,7 @@ s.listen(2)
 print("Waiting for a connection, Server Started")
 
 
-players = [Player(0,0,50,50,(255,0,0)), Player(100,100, 50,50, (0,0,255))]
+players = [Player(0,0,10,10,(255,0,0)), Player(0,400, 10,10, (0,0,255))]
 
 def threaded_client(conn, player):
     conn.send(pickle.dumps(players[player]))
@@ -53,4 +54,3 @@ while True:
 
     start_new_thread(threaded_client, (conn, currentPlayer))
     currentPlayer += 1
-
