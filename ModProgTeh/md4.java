@@ -63,17 +63,10 @@ public class DALSKAITLIS {
     	D1=Ax.multiply(By);
     	D2=Bx.multiply(Ay);
     	D=D1.add(D2); 
-    	/*System.out.println("D="+D);
-    	System.out.println("/");
-    	System.out.println("C="+C);
 
-    	System.out.println("D="+D);
-    	System.out.println("/");
-    	System.out.println("C="+C);*/
-    	//this.skaitlis
     	this.x=D.toString();
     	this.y=C.toString();
-
+/*
     	//izvelk veselo dalu
     	BigInteger res[]; 
     	res = D.divideAndRemainder(C);
@@ -92,14 +85,6 @@ public class DALSKAITLIS {
     	}
     	else //ir veselie
     	{
-    		/*
-        		
-    		if (Ay.compareTo(BigInteger.valueOf(1))!=0) {/// saucējs nav 1
-    					tmp2x=tmp2x+"_";
-    			    	tmp2x=tmp2x+Ax.toString();
-    			    	tmp2y=Ay.toString();
-    		}*/
- 
     		tmp3x=res[0].toString(); //+"_";//veselie
     		D=D.subtract(C.multiply(res[0]));
       		//mīnuss ir tikai pie veselā
@@ -116,7 +101,7 @@ public class DALSKAITLIS {
 
     		    			
     	}
-    	/*
+    	
     	//izdruka
 
     	if (C.compareTo(BigInteger.valueOf(1))==0) {
@@ -155,9 +140,11 @@ public class DALSKAITLIS {
     	
     	this.x=D.toString();
     	this.y=C.toString();
+    	
+    	
     	/*System.out.println("D="+D);
     	System.out.println("/");
-    	System.out.println("C="+C);*/
+    	System.out.println("C="+C);
 
     	//izvelk veselo dalu
     	//BigInteger res[]; 
@@ -177,14 +164,6 @@ public class DALSKAITLIS {
     	}
     	else //ir veselie
     	{
-    		/*
-        		
-    		if (Ay.compareTo(BigInteger.valueOf(1))!=0) {/// saucējs nav 1
-    					tmp2x=tmp2x+"_";
-    			    	tmp2x=tmp2x+Ax.toString();
-    			    	tmp2y=Ay.toString();
-    		}*/
- 
     		tmp3x=res[0].toString(); //+"_";//veselie
     		D=D.subtract(C.multiply(res[0]));
       		//mīnuss ir tikai pie veselā
@@ -201,7 +180,7 @@ public class DALSKAITLIS {
 
     		    			
     	}
-    	/*
+    	
     	//izdruka
 
     	if (C.compareTo(BigInteger.valueOf(1))==0) {
