@@ -1,5 +1,4 @@
- import java.math.BigInteger;
- import java.math.*; 
+import java.math.BigInteger;
 public class DALSKAITLIS {
 	  String x;
 	  String y;
@@ -17,39 +16,25 @@ public class DALSKAITLIS {
 
 		d[0] = new DALSKAITLIS(args[0], args[1]);
 		d[1] = new DALSKAITLIS(args[2], args[3]);
-		d[2] = new DALSKAITLIS(args[4]); 
-		//d[2] = new DALSKAITLIS(args[4], args[5]);//te nav pēc parauga
-	    /*System.out.println("hello 1="+d[0].x);
-	    System.out.println("hello 2="+d[0].y);
+		d[2] = new DALSKAITLIS(args[4]);
 
-*/
 		for(DALSKAITLIS tmpD : d) tmpD.display();
 
-//		if (d[0].isGreater(d[1])) {dSk = d[0]; d[0] = d[1]; d[1] = dSk; }
-/* ja pirmā daļa ir lielāka par otro, tad
- * pirmais kļūst par otro un
- * otrias kļūst par pirmo skaitli
-		d[0].divide(d[1]);*/
-		/*d[1].add(d[0]);
+		if (d[0].isGreater(d[1])) {dSk = d[0]; d[0] = d[1]; d[1] = dSk; }
+
+		d[0].divide(d[1]);
+		d[1].add(d[0]);
 		d[2].divide(d[1]);
 
 		for(DALSKAITLIS tmpD : d) tmpD.display();
-*/
-		/*System.out.println(d[0].isEqual(d[1]));
-		System.out.println(d[1].isEqual(d[2]));
-		System.out.println(d[2].isEqual(d[0]));*/
-		
-		//System.out.println(d[0].isGreater(d[1]));
-		//System.out.println(d[1].isGreater(d[2]));
-		//System.out.println(d[2].isGreater(d[0]));
 
-		//System.out.println(d[2].isEqual(d[2]));
-		//d[0].add(d[1]);
-		d[0].divide(d[1]);
+		System.out.println(d[0].isEqual(d[1]));
+		System.out.println(d[1].isEqual(d[2]));
+		System.out.println(d[2].isEqual(d[2])); 
 
 		} 
 	void add( DALSKAITLIS d ) {
-		System.out.println("add?");
+		//System.out.println("add?");
     	String tmp1x=this.x;
     	String tmp1y=this.y;
     	String tmp2x=d.x;
@@ -85,6 +70,10 @@ public class DALSKAITLIS {
     	System.out.println("D="+D);
     	System.out.println("/");
     	System.out.println("C="+C);*/
+    	//this.skaitlis
+    	this.x=D.toString();
+    	this.y=C.toString();
+
     	//izvelk veselo dalu
     	BigInteger res[]; 
     	res = D.divideAndRemainder(C);
@@ -127,6 +116,7 @@ public class DALSKAITLIS {
 
     		    			
     	}
+    	/*
     	//izdruka
 
     	if (C.compareTo(BigInteger.valueOf(1))==0) {
@@ -136,11 +126,11 @@ public class DALSKAITLIS {
     	System.out.print(tmp3x);
     	System.out.print("/");
     	System.out.println(tmp3y);
-    	}
+    	}*/
 	
 	}
 	void divide( DALSKAITLIS d) {
-		System.out.println("divide?");
+		//System.out.println("divide?");
     	String tmp1x=this.x;
     	String tmp1y=this.y;
     	String tmp2x=d.x;
@@ -162,6 +152,9 @@ public class DALSKAITLIS {
     	D=D.multiply(BigInteger.valueOf(sigvalue));
     	C=C.multiply(BigInteger.valueOf(sigvalue));
     	
+    	
+    	this.x=D.toString();
+    	this.y=C.toString();
     	/*System.out.println("D="+D);
     	System.out.println("/");
     	System.out.println("C="+C);*/
@@ -208,6 +201,7 @@ public class DALSKAITLIS {
 
     		    			
     	}
+    	/*
     	//izdruka
 
     	if (C.compareTo(BigInteger.valueOf(1))==0) {
@@ -218,10 +212,10 @@ public class DALSKAITLIS {
     	System.out.print("/");
     	System.out.println(tmp3y);
     	}
-    	
+    	*/
 	}
 	boolean isEqual(DALSKAITLIS d) { 
-		System.out.println("isEqual?");
+		//System.out.println("isEqual?");
     	String tmp1x=this.x;
     	String tmp1y=this.y;
     	String tmp2x=d.x;
@@ -268,7 +262,7 @@ public class DALSKAITLIS {
     	}    	
 }
 	boolean isGreater(DALSKAITLIS d) { 
-		System.out.println("isGreater?");
+		//System.out.println("isGreater?");
     	String tmp1x=this.x;
     	String tmp1y=this.y;
     	String tmp2x=d.x;
@@ -321,7 +315,7 @@ public class DALSKAITLIS {
 
 
 	public void display() { 
-		System.out.println("Display this!");
+		//System.out.println("Display this!");
 	//	System.out.println("skait="+x);
 		//System.out.println("sauc="+y);
     	String tmp1x=this.x;
