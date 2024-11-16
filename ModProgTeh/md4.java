@@ -23,7 +23,7 @@ public class DALSKAITLIS {
 	    System.out.println("hello 2="+d[0].y);
 
 */
-		for(DALSKAITLIS tmpD : d) tmpD.display();
+		for(DALSKAITLIS tmpD : d) tmpD.display2();
 
 //		if (d[0].isGreater(d[1])) {dSk = d[0]; d[0] = d[1]; d[1] = dSk; }
 /* ja pirmā daļa ir lielāka par otro, tad
@@ -44,8 +44,8 @@ public class DALSKAITLIS {
 		//System.out.println(d[2].isGreater(d[0]));
 
 		//System.out.println(d[2].isEqual(d[2]));
-		//d[0].add(d[1]);
-		d[0].divide(d[1]);
+		d[0].add(d[1]);
+		//d[0].divide(d[1]);
 
 		} 
 	void add( DALSKAITLIS d ) {
@@ -78,9 +78,9 @@ public class DALSKAITLIS {
     	D1=Ax.multiply(By);
     	D2=Bx.multiply(Ay);
     	D=D1.add(D2); 
-    	System.out.println("D="+D);
+    	/*System.out.println("D="+D);
     	System.out.println("/");
-    	System.out.println("C="+C);
+    	System.out.println("C="+C);*/
     	//saīsina
     	G=D.gcd(C);
     	D=D.divide(G);
@@ -106,21 +106,18 @@ public class DALSKAITLIS {
     		{
     			tmp3x="-";
     		}*/
-    		tmp3x=res[0]+"_";//veselie
+    		tmp3x=res[0].toString(); //+"_";//veselie
     		D=D.subtract(C.multiply(res[0]));
-    		tmp3x=tmp3x+D.toString();
-    		tmp3y=C.toString();
+    		if (C.compareTo(BigInteger.valueOf(1))!=0) {/// saucējs nav 1
+    					tmp3x=tmp3x+"_";
+    			    	tmp3x=tmp3x+D.toString();
+    			    	tmp3y=C.toString();
+    		}
+
     		    			
     	}
-    	
+    	//izdruka
     	if (C.compareTo(BigInteger.valueOf(1))==0) {
-        	System.out.println("yes");
-
-        	
-        	
-        	//if(sigvalue!=0) {
-//atņemapakšsvītru
-        	//tmp3x=tmp3x.substring(0, tmp3x.length()-1);}
         	System.out.println(tmp3x);
     	}
     	else {
@@ -280,7 +277,6 @@ public class DALSKAITLIS {
     	String tmp1y=this.y;
     	String tmp2x="";
     	String tmp2y="";
-    	//String veseli;
     	int n=0, negx=0, negy=0;//, neg=0;
     	//int		ves=0; ///Izdzēst pārveido par BigInt
     	BigInteger Ax, Ay, B,C, D, E, F;
@@ -390,28 +386,67 @@ public class DALSKAITLIS {
         }
 
 	}
-	/*
-///End with	 
-	 16 -32 36 45 -2
-///	 
-	  3 4 
-	  12 34 
-	  -18 3 
-	  34 12 
-	  -7 -4 
-	  -1 -2
-	  1 -2
-	  ///
-	-1/2
-4/5
--2
--5/8
-7/40
--11_3/7
-false
-false
-true*/
-
-
+	public void display2() { 
+		System.out.println("Display this!");
+	//	System.out.println("skait="+x);
+		//System.out.println("sauc="+y);
+    	String tmp1x=this.x;
+    	String tmp1y=this.y;
+    	String tmp2x="";
+    	String tmp2y="";
+    	BigInteger Ax, Ay, B,C, D, E, F, G;
+    	Ax  = new BigInteger(tmp1x);
+    	Ay = new BigInteger(tmp1y);
+    	B = new BigInteger("0");
+    	C = new BigInteger("0");
+       	D = new BigInteger("0");   	
+    	E = BigInteger.valueOf(1);
+    	F =new BigInteger("0");    	
+    	//ja saucejs ir negativs
+    	int sigvalue = Ay.signum();
+    	Ax=Ax.multiply(BigInteger.valueOf(sigvalue));
+    	Ay=Ay.multiply(BigInteger.valueOf(sigvalue));
+    	BigInteger res[]; 
+    	res = Ax.divideAndRemainder(Ay); 	
+    	int sigvalue2 = res[0].signum();
+    	//System.out.println("sigvalue="+sigvalue);
+    	
+    	if (sigvalue2 ==0 )//nav veselie
+    	{ 
+    		//saīsina
+    		G=Ax.gcd(Ay);
+    		Ax=Ax.divide(G);
+        	Ay=Ay.divide(G);
+    	   	tmp2x=Ax.toString();
+        	tmp2y=Ay.toString();
+    	}
+    	else //ir veselie
+    	{
+    		tmp2x=res[0].toString(); //+"_";//veselie
+    		Ax=Ax.subtract(Ay.multiply(res[0]));//samazina skaitītāju
+    		//mīnuss ir tikai pie veselā
+    		Ax=Ax.multiply(BigInteger.valueOf(sigvalue2));
+    		//saīsina
+    		G=Ax.gcd(Ay);
+    		Ax=Ax.divide(G);
+        	Ay=Ay.divide(G);
+    		
+    		if (Ay.compareTo(BigInteger.valueOf(1))!=0) {/// saucējs nav 1
+    					tmp2x=tmp2x+"_";
+    			    	tmp2x=tmp2x+Ax.toString();
+    			    	tmp2y=Ay.toString();
+    		}
+    		    			
+    	}  	
+    	//izdruka
+    	if (Ay.compareTo(BigInteger.valueOf(1))==0) {
+        	System.out.println(tmp2x);
+    	}
+    	else {
+    	System.out.print(tmp2x);
+    	System.out.print("/");
+    	System.out.println(tmp2y);
+    	}  		
+	}
 
 }
