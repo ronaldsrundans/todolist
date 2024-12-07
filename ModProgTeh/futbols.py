@@ -47,7 +47,7 @@ class Team:
     self.vpl=0
 
 
-for i in range (1):
+for i in range (3):
   #print(i)
   tree = ET.parse('futbols'+str(i)+'.xml')
   root = tree.getroot()
@@ -120,16 +120,27 @@ for i in range (1):
         if(tmp[0].vpm>tmp[1].vpm):
           tmp[0].PUN_TOT+=5
           tmp[1].PUN_TOT+=1
-          tmp[0].UZSKPM+=1
+          tmp[0].USKPM+=1
           tmp[1].ZSKPM+1
         else:
           tmp[0].PUN_TOT+=1
           tmp[1].PUN_TOT+=5
-          tmp[1].UZSKPM+=1
-          tmp[0].ZSKPM+1    
+          tmp[1].USKPM+=1
+          tmp[0].ZSKPM+1
+              
 
 
     print("Statistics:")
+    # Connecting to sqlite 
+  conn = sqlite3.connect('team.db') 
+  cursor = conn.cursor() 
+  cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[0].name+"', '"+str(tmp[0].PUN_TOT)+"', '"+str(tmp[0].USKPM)+"','"+str(tmp[0].ZSKPM)+"','"+str(tmp[0].UZSKPL)+"','"+str(tmp[0].ZSKPL)+"','"+str(tmp[0].IEGV)+"','"+str(tmp[0].ZAUV)+"')") 
+  cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[1].name+"', '"+str(tmp[1].PUN_TOT)+"', '"+str(tmp[1].USKPM)+"','"+str(tmp[1].ZSKPM)+"','"+str(tmp[1].UZSKPL)+"','"+str(tmp[1].ZSKPL)+"','"+str(tmp[1].IEGV)+"','"+str(tmp[1].ZAUV)+"')") 
+  conn.commit() 
+  conn.close()
+
+
+    #print("Statistics:")
 
   for x in vgarr:
     print(x)
@@ -140,6 +151,50 @@ for y in tmp:
   print(y.IEGV)
   print("Zaudētie vārti:")
   print(y.ZAUV)
+
+# Connecting to sqlite 
+conn = sqlite3.connect('team.db') 
+  
+# Creating a cursor object using the  
+# cursor() method 
+cursor = conn.cursor() 
+  
+data1=cursor.execute("SELECT * FROM TEAM WHERE NAME = '"+tmp[0].name+"'")
+print(cursor.fetchall())
+
+data2=cursor.execute("SELECT * FROM TEAM WHERE NAME = '"+tmp[1].name+"'")
+print(cursor.fetchall())
+data2=cursor.execute("SELECT * FROM TEAM WHERE NAME = 'Barcelona'")
+print(cursor.fetchall())
+# Queries to INSERT records. 
+#cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[0].name+"', '"+str(tmp[0].PUN_TOT)+"', '"+str(tmp[0].USKPM)+"','"+str(tmp[0].ZSKPM)+"','"+str(tmp[0].UZSKPL)+"','"+str(tmp[0].ZSKPL)+"','"+str(tmp[0].IEGV)+"','"+str(tmp[0].ZAUV)+"')") 
+#cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[1].name+"', '"+str(tmp[1].PUN_TOT)+"', '"+str(tmp[1].USKPM)+"','"+str(tmp[1].ZSKPM)+"','"+str(tmp[1].UZSKPL)+"','"+str(tmp[1].ZSKPL)+"','"+str(tmp[1].IEGV)+"','"+str(tmp[1].ZAUV)+"')") 
+# 'UPDATE TEAM SET  = ,  = WHERE NAME="+tmp[0].name+" '
+"""
+data1=cursor.execute("SELECT * FROM TEAM WHERE NAME = '"+tmp[0].name+"'")
+
+print(cursor.fetchall())
+data2=cursor.execute("SELECT * FROM TEAM WHERE NAME = '"+tmp[1].name+"'")
+for row in data2:
+  print("ROW="+str(row[6]))
+print(cursor.fetchall())
+
+
+  
+# Display data inserted 
+print("Data Inserted in the table: ") 
+data=cursor.execute('''SELECT * FROM TEAM''') 
+for row in data: 
+    print(row) 
+"""  
+# Commit your changes in the database     
+conn.commit() 
+  
+# Closing the connection 
+conn.close()
+
+
+
 #komandas nosaukums
 #pamatlaikā (punktu skait, uzvaras, zaudējumi)
 #papildlaikā (punktu skait, uzvaras, zaudējumi)
