@@ -1,13 +1,41 @@
+
+import sqlite3
+ 
+# Connecting to sqlite
+# connection object
+connection_obj = sqlite3.connect('team.db')
+ 
+# cursor object
+cursor_obj = connection_obj.cursor()
+ 
+# Drop the GEEK table if already exists.
+cursor_obj.execute("DROP TABLE IF EXISTS TEAM")
+ 
+# Creating table
+table = """ CREATE TABLE TEAM (
+            Name VARCHAR(255) NOT NULL,
+            PUN_TOT INT,      
+            USKPM INT,       
+            ZSKPM INT,     
+            UZSKPL INT,      
+            ZSKPL INT,       
+            IEGV INT,       
+            ZAUV INT
+        ); """
+ 
+cursor_obj.execute(table)
+ 
+print("Table is Ready")
+ 
+# Close the connection
+connection_obj.close()
+
+
 import xml.etree.ElementTree as ET
 
 class Team:
   def __init__(self, name):
     self.name = name
-    self.win=0
-    self.lose=0
-    self.punkti=0
-    self.varti=0
-    self.pvarti=0
     self.PUN_TOT=0      
     self.USKPM=0      
     self.ZSKPM=0     
@@ -15,6 +43,8 @@ class Team:
     self.ZSKPL=0       
     self.IEGV=0       
     self.ZAUV=0
+    self.vpm=0
+    self.vpl=0
 
 
 for i in range (1):
@@ -58,12 +88,47 @@ for i in range (1):
             print(a) # returns ['Hello', ' World!'] 
             if(int(a[0])>59 and int(a[1])>1):
               print("Papildlaiks!")
-              tmp[nrpk-1].UZSKPL+=1
+              #tmp[nrpk-1].UZSKPL+=1
+              tmp[nrpk-1].IEGV+=1
+              tmp[nrpk-1].vpl+=1
             else:
               print("Pamatlaiks!")
-              tmp[nrpk-1].USKPM+=1
+              #tmp[nrpk-1].USKPM+=1
+              tmp[nrpk-1].IEGV+=1
+              tmp[nrpk-1].vpm+=1
             #vgarr.append(vg.get("Laiks"))
     print("Statistics:")
+    if (len(tmp)>1):
+      print("Ieliek zaudētie vārti:")
+      tmp[0].ZAUV+=(tmp[1].vpl+tmp[1].vpm )
+      tmp[1].ZAUV+=(tmp[0].vpl+tmp[0].vpm )
+      print("Ieliek punkti:")
+      if(tmp[0].vpl>0 or tmp[1].vpl>0):
+        print("Papildlaika uzvareja:")
+        if(tmp[0].vpl>tmp[1].vpl):
+          tmp[0].PUN_TOT+=3
+          tmp[1].PUN_TOT+=2
+          tmp[0].UZSKPL+=1
+          tmp[1].ZSKPL+1
+        else:
+          tmp[0].PUN_TOT+=2
+          tmp[1].PUN_TOT+=3
+          tmp[1].UZSKPL+=1
+          tmp[0].ZSKPL+1
+      else:
+        print("Pamatlaika uzvareja:")
+        if(tmp[0].vpm>tmp[1].vpm):
+          tmp[0].PUN_TOT+=5
+          tmp[1].PUN_TOT+=1
+          tmp[0].UZSKPM+=1
+          tmp[1].ZSKPM+1
+        else:
+          tmp[0].PUN_TOT+=1
+          tmp[1].PUN_TOT+=5
+          tmp[1].UZSKPM+=1
+          tmp[0].ZSKPM+1    
+
+
     print("Statistics:")
 
   for x in vgarr:
@@ -71,8 +136,10 @@ for i in range (1):
 print("TMP:  ")
 for y in tmp:
   print(y.name)
-  print(y.UZSKPL)
-  print(y.USKPM)
+  print("Iegutie vārti:")
+  print(y.IEGV)
+  print("Zaudētie vārti:")
+  print(y.ZAUV)
 #komandas nosaukums
 #pamatlaikā (punktu skait, uzvaras, zaudējumi)
 #papildlaikā (punktu skait, uzvaras, zaudējumi)
