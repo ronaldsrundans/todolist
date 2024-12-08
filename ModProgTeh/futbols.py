@@ -46,10 +46,10 @@ class Team:
     self.vpm=0
     self.vpl=0
 
-
-for i in range (3):
+path="/home/ubuntu/Documents/ModProgrMet/PD2/XML_TestData/XMLFirstRound/"
+for i in range (0,3):
   #print(i)
-  tree = ET.parse('futbols'+str(i)+'.xml')
+  tree = ET.parse(path+'futbols'+str(i)+'.xml')
   root = tree.getroot()
   print(root.tag)
   print(root.attrib)
@@ -144,6 +144,10 @@ for i in range (3):
 
   for x in vgarr:
     print(x)
+#ENDof for input files
+#
+#
+#     
 print("TMP:  ")
 for y in tmp:
   print(y.name)
@@ -158,15 +162,15 @@ conn = sqlite3.connect('team.db')
 # Creating a cursor object using the  
 # cursor() method 
 cursor = conn.cursor() 
-  
+""" 
 data1=cursor.execute("SELECT * FROM TEAM WHERE NAME = '"+tmp[0].name+"'")
 print(cursor.fetchall())
 
 data2=cursor.execute("SELECT * FROM TEAM WHERE NAME = '"+tmp[1].name+"'")
 print(cursor.fetchall())
 data2=cursor.execute("SELECT * FROM TEAM WHERE NAME = 'Barcelona' ")
-print(cursor.fetchall())
-data3=cursor.execute("SELECT name,sum(PUN_TOT), sum(USKPM), sum(ZSKPM), sum(UZSKPL), sum(ZSKPL), sum(IEGV), sum(ZAUV) FROM TEAM group by name order by sum(PUN_TOT)")
+print(cursor.fetchall())"""
+data3=cursor.execute("SELECT name,sum(PUN_TOT), sum(USKPM), sum(ZSKPM), sum(UZSKPL), sum(ZSKPL), sum(IEGV), sum(ZAUV) FROM TEAM group by name order by sum(PUN_TOT) desc")
 print(cursor.fetchall())
 # Queries to INSERT records. 
 #cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[0].name+"', '"+str(tmp[0].PUN_TOT)+"', '"+str(tmp[0].USKPM)+"','"+str(tmp[0].ZSKPM)+"','"+str(tmp[0].UZSKPL)+"','"+str(tmp[0].ZSKPL)+"','"+str(tmp[0].IEGV)+"','"+str(tmp[0].ZAUV)+"')") 
@@ -197,34 +201,6 @@ conn.close()
 
 
 
-#komandas nosaukums
-#pamatlaikā (punktu skait, uzvaras, zaudējumi)
-#papildlaikā (punktu skait, uzvaras, zaudējumi)
-#
-"""  for x in komarr:
-    print(x)
-  
-for y in tmp:
-  print(y.name)
-  print(y.win)
-  print(y.lose)
-
-
-Par uzvaru pamatlaikā komanda saņem PIECUS punktus, par uzvaru papildlaikā 
-komanda saņem TRĪS punktus, par zaudējumu papildlaikā komanda saņem DIVUS punktus, 
-par zaudējumu pamatlaikā komanda saņem VIENU punktu. 
-print("NEXT")
-for country in root.findall('Speletaji'):
-
-    #rank = country.find('rank').text
-    rank = country.get ("Loma")
-    name = country.get('Name')
-"""
-#komandas nosaukums
-#pamatlaikā (punktu skait, uzvaras, zaudējumi)
-#papildlaikā (punktu skait, uzvaras, zaudējumi)
-#
-
 """turnīra tabulu (komandas vieta tabulā pēc kārtas, nosaukums, 
     iegūto punktu skaits, uzvaru un zaudējumu skaits pamatlaikā, 
     uzvaru un zaudējumu skaits papildlaikā, spēlēs gūto un zaudēto vārtu skaits). 
@@ -236,16 +212,3 @@ for country in root.findall('Speletaji'):
     Sarakstā augstāk jāatrodas spēlētājam, kas guvis vairāk vārtu, bet, 
     vienāda gūto vārtu skaita gadījumā, tam spēlētājam, kas vairāk reižu rezultatīvi piespēlējis."""
 
-    #cars.append("Honda") 
-"""
-for child in root:
-
-    print(child.tag, child.attrib)
-print("Neighbor:")
-for neighbor in root.iter('Komanda'):
-
-    print(neighbor.attrib)
-    for eighbor in neighbor.iter('Speletajs'):
-         print(eighbor.attrib)
-"""
-#rint("Print"+root[0][1][0].text)
