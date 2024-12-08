@@ -25,7 +25,7 @@ table = """ CREATE TABLE TEAM (
  
 cursor_obj.execute(table)
  
-print("Table is Ready")
+#print("Table is Ready")
  
 # Close the connection
 connection_obj.close()
@@ -45,10 +45,123 @@ class Team:
     self.ZAUV=0
     self.vpm=0
     self.vpl=0
+#END of class Team
+def my_function(i, path2):
+  #print("Hello from a function")
+  #for i in range (0,3):
+  #print(i)
+  
+  tree = ET.parse(path2+'futbols'+str(i)+'.xml')
+  root = tree.getroot()
+  #print(root.tag)
+  #print(root.attrib)
+  #komarr=[]
+  #vgarr=[]
+  tmp=[]
+  nrpk=0
+  #print("Neighbor2:")
+  for komanda in root.iter('Komanda'):
+    #print(komanda.attrib)
+    #print("Komandas nosaukums ir "+komanda.get("Nosaukums"))
+    #vgarr.append(komanda.get("Nosaukums"))
+    #komarr.append(komanda.get("Nosaukums"))
+    tmp.append(Team(komanda.get("Nosaukums")))
+    nrpk+=1
 
+
+    for speletaji in komanda.iter('Speletaji'):
+         for speletajs in speletaji.iter('Speletajs'):
+            #print(ighbor.attrib)
+            rank = speletajs.get ("Uzvards")
+            name = speletajs.get("Vards")
+            #print(name, rank)
+    #print("_ Komandas sodi: ")
+    """
+    for sodi in komanda.iter('Sodi'):
+        for sods in sodi.iter('Sods'):
+            print(sods.attrib)
+    """
+    #print("_ Komandas varti: ")
+    for varti in komanda.iter('Varti'):
+        for vg in varti.iter('VG'):
+            #print(vg.attrib)
+            #vgarr.append(vg.get("Laiks"))
+
+            #print vg.get("Laiks")
+            a = vg.get("Laiks").split(":")#"Hello, World!"
+            #print(a) # returns ['Hello', ' World!'] 
+            if(int(a[0])>59 and int(a[1])>1):
+              #print("Papildlaiks!")
+              #tmp[nrpk-1].UZSKPL+=1
+              tmp[nrpk-1].IEGV+=1
+              tmp[nrpk-1].vpl+=1
+            else:
+              #print("Pamatlaiks!")
+              #tmp[nrpk-1].USKPM+=1
+              tmp[nrpk-1].IEGV+=1
+              tmp[nrpk-1].vpm+=1
+            #vgarr.append(vg.get("Laiks"))
+    #print("Statistics:")
+    if (len(tmp)>1):
+      #print("Ieliek zaudētie vārti:")
+      tmp[0].ZAUV+=(tmp[1].vpl+tmp[1].vpm )
+      tmp[1].ZAUV+=(tmp[0].vpl+tmp[0].vpm )
+      #print("Ieliek punkti:")
+      if(tmp[0].vpl>0 or tmp[1].vpl>0):
+        #print("Papildlaika uzvareja:")
+        if(tmp[0].vpl>tmp[1].vpl):
+          tmp[0].PUN_TOT+=3
+          tmp[1].PUN_TOT+=2
+          tmp[0].UZSKPL+=1
+          tmp[1].ZSKPL+=1
+        else:
+          tmp[0].PUN_TOT+=2
+          tmp[1].PUN_TOT+=3
+          tmp[1].UZSKPL+=1
+          tmp[0].ZSKPL+=1
+      else:
+        #print("Pamatlaika uzvareja:")
+        if(tmp[0].vpm>tmp[1].vpm):
+          tmp[0].PUN_TOT+=5
+          tmp[1].PUN_TOT+=1
+          tmp[0].USKPM+=1
+          tmp[1].ZSKPM+=1
+        else:
+          tmp[0].PUN_TOT+=1
+          tmp[1].PUN_TOT+=5
+          tmp[1].USKPM+=1
+          tmp[0].ZSKPM+=1
+              
+
+
+    #print("Statistics:")
+    # Connecting to sqlite 
+  conn = sqlite3.connect('team.db') 
+  cursor = conn.cursor() 
+  cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[0].name+"', '"+str(tmp[0].PUN_TOT)+"', '"+str(tmp[0].USKPM)+"','"+str(tmp[0].ZSKPM)+"','"+str(tmp[0].UZSKPL)+"','"+str(tmp[0].ZSKPL)+"','"+str(tmp[0].IEGV)+"','"+str(tmp[0].ZAUV)+"')") 
+  cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[1].name+"', '"+str(tmp[1].PUN_TOT)+"', '"+str(tmp[1].USKPM)+"','"+str(tmp[1].ZSKPM)+"','"+str(tmp[1].UZSKPL)+"','"+str(tmp[1].ZSKPL)+"','"+str(tmp[1].IEGV)+"','"+str(tmp[1].ZAUV)+"')") 
+  conn.commit() 
+  conn.close()
+
+#ENDof my_function()
+
+
+
+
+#main
 path="/home/ubuntu/Documents/ModProgrMet/PD2/XML_TestData/XMLFirstRound/"
+
 for i in range (0,3):
   #print(i)
+  my_function(i, path)
+path1="/home/ubuntu/Documents/ModProgrMet/PD2/XML_TestData/XMLSecondRound/"
+for i in range (0,3):
+  #print(i)
+  my_function(i, path1)
+#END of main
+
+  """
+  #
   tree = ET.parse(path+'futbols'+str(i)+'.xml')
   root = tree.getroot()
   print(root.tag)
@@ -145,9 +258,11 @@ for i in range (0,3):
   for x in vgarr:
     print(x)
 #ENDof for input files
+"""
 #
 #
 #     
+"""
 print("TMP:  ")
 for y in tmp:
   print(y.name)
@@ -155,7 +270,7 @@ for y in tmp:
   print(y.IEGV)
   print("Zaudētie vārti:")
   print(y.ZAUV)
-
+"""
 # Connecting to sqlite 
 conn = sqlite3.connect('team.db') 
   
