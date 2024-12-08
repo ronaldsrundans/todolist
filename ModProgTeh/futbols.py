@@ -109,24 +109,24 @@ for i in range (3):
           tmp[0].PUN_TOT+=3
           tmp[1].PUN_TOT+=2
           tmp[0].UZSKPL+=1
-          tmp[1].ZSKPL+1
+          tmp[1].ZSKPL+=1
         else:
           tmp[0].PUN_TOT+=2
           tmp[1].PUN_TOT+=3
           tmp[1].UZSKPL+=1
-          tmp[0].ZSKPL+1
+          tmp[0].ZSKPL+=1
       else:
         print("Pamatlaika uzvareja:")
         if(tmp[0].vpm>tmp[1].vpm):
           tmp[0].PUN_TOT+=5
           tmp[1].PUN_TOT+=1
           tmp[0].USKPM+=1
-          tmp[1].ZSKPM+1
+          tmp[1].ZSKPM+=1
         else:
           tmp[0].PUN_TOT+=1
           tmp[1].PUN_TOT+=5
           tmp[1].USKPM+=1
-          tmp[0].ZSKPM+1
+          tmp[0].ZSKPM+=1
               
 
 
@@ -164,7 +164,9 @@ print(cursor.fetchall())
 
 data2=cursor.execute("SELECT * FROM TEAM WHERE NAME = '"+tmp[1].name+"'")
 print(cursor.fetchall())
-data2=cursor.execute("SELECT * FROM TEAM WHERE NAME = 'Barcelona'")
+data2=cursor.execute("SELECT * FROM TEAM WHERE NAME = 'Barcelona' ")
+print(cursor.fetchall())
+data3=cursor.execute("SELECT name,sum(PUN_TOT), sum(USKPM), sum(ZSKPM), sum(UZSKPL), sum(ZSKPL), sum(IEGV), sum(ZAUV) FROM TEAM group by name order by sum(PUN_TOT)")
 print(cursor.fetchall())
 # Queries to INSERT records. 
 #cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[0].name+"', '"+str(tmp[0].PUN_TOT)+"', '"+str(tmp[0].USKPM)+"','"+str(tmp[0].ZSKPM)+"','"+str(tmp[0].UZSKPL)+"','"+str(tmp[0].ZSKPL)+"','"+str(tmp[0].IEGV)+"','"+str(tmp[0].ZAUV)+"')") 
