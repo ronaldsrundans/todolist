@@ -1,1 +1,8 @@
+1. Prezentācijas slaidos aprakstīts, kā klasiski darbojas elektroniskā parakstīšana, bet nesapratu, kā tā darbojas eParaksts gadījumā. Sanāk, ka uz ID kartes glabājas privātā atslēga, bet vai ar to paraksta dokumenta kontrolsummu? Ja tā, tad LVRTC varētu nodrošināt publisko atslēgu. Taču kā tiek apliecināts klāt pievienotais vārds, uzvārds, personas kods un vissvarīgāk - parakstīšanas laiks?
 
+2. eParaksts piedāvā arī e-Identitātes apliecināšanas pakalpojumu. Noprotams, ka šis pakalpojums balstās uz tās pašas eParaksts tehnoloģijas. Pēc idejas identitāti iespējams apliecināt ar identitātes pieprasījuma parakstīšanu. Šādu darbību vajadzētu būt iespējams veikt bez laika zīmola, tas ir - tīri bezsaistē un bez trešās puses (LVRTC) apliecinājuma. Vai ir kāds tehnisks pamatojums, kādēļ nav iespējams veikt parakstus bezsaistē un kādēļ e-Identitātes apliecināšanai nepieciešams papildus pakalpojums?
+
+1. Cik atceros - kad e-parakstu sāka ieviest, tad bija ierobežojumi, ka joprojām ir dokumenti, kurus var sastādīt un 
+apliecināt tikai klātienē pie notāra. Vai tas joprojām ir spēkā? Un pat, ja ir tiešsaistes (attālināta) notarizācija, tad to laikam nekādi nevarēs automatizēt vai kā savādāk iztikt bez cilvēka notāra un ar to saistītiem izdevumiem?
+
+2. Tagad Latvijas dokumenti parasti ir edoc formātā (piem., Saeimas Titania sistēmā) un neērti ir tas, ka tos nākas atvērt 2 reizes - vispirms pašu e-doc un tad tā saturā esošo dokumentus. Jautājums - vai katrai ES valstij ir savs edoc līdzīgs formāts un līdz ar to savs dokumenta skatītājs?
