@@ -132,9 +132,10 @@ def my_function(i, path2,rinkis):
               tmp[nrpk-1].IEGV+=1
               tmp[nrpk-1].vpm+=1
             #print("Vārtus iesita NR.="+vg.get("Nr"))
-            addvarti_function4(vg.get("Nr"))
+            #print("Vārtus iesta spēlētājs: "+komanda.get("Nosaukums"))
+            addvarti_function4(vg.get("Nr"),komanda.get("Nosaukums"))#,
             for pie in vg.iter('P'):
-              addpiesp_function5(pie.get("Nr"))
+              addpiesp_function5(pie.get("Nr"),komanda.get("Nosaukums"))
               #  print(p.get("Nr"))
     if (len(tmp)>1):
       #print("Ieliek zaudētie vārti:")
@@ -241,7 +242,7 @@ def addplayer_function(nr, team, name, surname):#playernr,playerteam,personname,
   # Creating a cursor object using the  
   # cursor() method 
   cursor = conn.cursor() 
-  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  playerdata=cursor.execute("SELECT DISTINCT * FROM PLAYER WHERE NR="+str(nr)+" AND VARDS='"+name+"' AND UZVARDS='"+surname+"' AND KOM_NOS='"+team+"'").fetchall()
   #print(len(playerdata))
   if(len(playerdata)==0):
     #Insert player
@@ -250,14 +251,14 @@ def addplayer_function(nr, team, name, surname):#playernr,playerteam,personname,
   # Closing the connection 
   conn.close()
 #END of addplayer_function
-def addvarti_function4(nr):
+def addvarti_function4(nr, team):
   #print("Hello from a function")
   # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
   # Creating a cursor object using the  
   # cursor() method 
   cursor = conn.cursor() 
-  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
   #print("LEN="+len(playerdata))
   #data3=cursor.execute("UPDATE FROM PLAYER")
   varti=0
@@ -267,7 +268,7 @@ def addvarti_function4(nr):
     #print(row[4])
     varti=row[4]
   #print("Varti="+str(varti))
-  cursor.execute("UPDATE PLAYER SET VARTI = "+str(varti+1)+" WHERE NR = "+str(nr)).fetchall()
+  cursor.execute("UPDATE PLAYER SET VARTI = "+str(varti+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
   #cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
   #print(cursor.fetchall())
     #print("LEN="+len(row) )
@@ -278,14 +279,14 @@ def addvarti_function4(nr):
   # Closing the connection 
   conn.close()
 #END of my_function4()
-def addpiesp_function5(nr):
+def addpiesp_function5(nr, team):
   #print("Hello from a function")
   # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
   # Creating a cursor object using the  
   # cursor() method 
   cursor = conn.cursor() 
-  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
   #print("LEN="+len(playerdata))
   #data3=cursor.execute("UPDATE FROM PLAYER")
   piesp=0
@@ -295,7 +296,7 @@ def addpiesp_function5(nr):
     #print(row[5])
     piesp=row[5]
   #print("Varti="+str(varti))
-  cursor.execute("UPDATE PLAYER SET PIESP = "+str(piesp+1)+" WHERE NR = "+str(nr)).fetchall()
+  cursor.execute("UPDATE PLAYER SET PIESP = "+str(piesp+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
   #cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
   #print(cursor.fetchall())
     #print("LEN="+len(row) )
@@ -306,59 +307,41 @@ def addpiesp_function5(nr):
   # Closing the connection 
   conn.close()
 #END of my_function5()
-def my_function6(nr):
-  #print("Hello from a function")
-  # Connecting to sqlite 
+def my_function6(nr):#Print player info
   conn = sqlite3.connect('team.db') 
-  # Creating a cursor object using the  
-  # cursor() method 
   cursor = conn.cursor() 
-  #playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
-  #print("LEN="+len(playerdata))
-  #data3=cursor.execute("UPDATE FROM PLAYER")
-
-  #print(cursor.fetchall())
-
-  #print("Varti="+str(varti))
-  #cursor.execute("UPDATE PLAYER SET PIESP = "+str(piesp+1)+" WHERE NR = "+str(nr)).fetchall()
   cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
   print(cursor.fetchall())
-    #print("LEN="+len(row) )
-  #print(playerdata['NAME'])
-  #print(playerdata[0])
-  # Commit your changes in the database     
   conn.commit() 
-  # Closing the connection 
   conn.close()
 #END of my_function6()
 def addsodi_function7(nr):
 #print("Hello from a function")
   # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
-  # Creating a cursor object using the  
-  # cursor() method 
   cursor = conn.cursor() 
   playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
-  #print("LEN="+len(playerdata))
-  #data3=cursor.execute("UPDATE FROM PLAYER")
   sodi=0
-  #print(cursor.fetchall())
-  #print("last:")
   for row in playerdata: 
     #print(row[6])
     sodi=row[6]#sodi
   #print("Varti="+str(varti))
-  cursor.execute("UPDATE PLAYER SET SODI = "+str(sodi+1)+" WHERE NR = "+str(nr)).fetchall()
-  #cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
-  #print(cursor.fetchall())
-    #print("LEN="+len(row) )
-  #print(playerdata['NAME'])
-  #print(playerdata[0])
-  # Commit your changes in the database     
+  cursor.execute("UPDATE PLAYER SET SODI = "+str(sodi+1)+" WHERE NR = "+str(nr)).fetchall() 
   conn.commit() 
   # Closing the connection 
   conn.close()
 #END of my_function7()
+def my_function8():
+#print("Hello from a function")
+  # Connecting to sqlite 
+  conn = sqlite3.connect('team.db') 
+  cursor = conn.cursor() 
+  cursor.execute("SELECT VARDS, UZVARDS, NR , KOM_NOS, VARTI, PIESP FROM PLAYER ORDER BY VARTI DESC, PIESP DESC LIMIT 8")
+  print(cursor.fetchall())
+  conn.commit() 
+  # Closing the connection 
+  conn.close()
+#END of my_function8()
 
 #main
 path="/home/ubuntu/Documents/ModProgrMet/PD2/XML_TestData/XMLFirstRound/"
@@ -381,13 +364,24 @@ print("1.un 2.rinkis")
 my_function2("")
 
 my_function3()
+
+print("   ")
 #addvarti_function4(47)
 #addvarti_function4(47)
 
 #addvarti_function4(147)
-my_function6(55)
-addsodi_function7(55)
-my_function6(55)
+
+
+#Testing
+#my_function6(55)
+#addsodi_function7(55)
+#my_function6(55)
+my_function8()
+print("    ")
+my_function6(39)
+my_function6(24)
+my_function6(34)
+
 
 #END of main
 
