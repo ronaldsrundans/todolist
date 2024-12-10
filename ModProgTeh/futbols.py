@@ -100,16 +100,16 @@ def my_function(i, path2,rinkis):
             playerteam=tmp[nrpk-1].name
             person.append(Player(playernr, personname, surname, playerteam))
             # Connecting to sqlite 
-            conn = sqlite3.connect('team.db') 
-            cursor = conn.cursor() 
+            #conn = sqlite3.connect('team.db') 
+            #cursor = conn.cursor() 
             #for p in person:
             #print(p.Nr+" "+p.Vards+" "+p.Uzvards+" "+p.Kom_Nos)
-            cursor.execute("INSERT INTO PLAYER VALUES ("+playernr+",'"+playerteam+"','"+personname+"','"+surname+"',0,0)")
-
+            #cursor.execute("INSERT INTO PLAYER VALUES ("+playernr+",'"+playerteam+"','"+personname+"','"+surname+"',0,0)")
+            addplayer_function(playernr,playerteam,personname,surname)
             #cursor.execute("INSERT INTO PLAYER VALUES ("+p.Nr+",'"+p.Kom_Nos+"','"+p.Vards+"','"+p.Uzvards+"',0,0)")
             #,'"+p.Kom_Nos+"','"+p.Vards+"','"+p.Uzvards+"')") 
-            conn.commit() 
-            conn.close()
+            #conn.commit() 
+            #conn.close()
 
             #print(name, rank)
     #print("_ Komandas sodi: ")
@@ -131,6 +131,7 @@ def my_function(i, path2,rinkis):
               tmp[nrpk-1].IEGV+=1
               tmp[nrpk-1].vpm+=1
             print("Vārtus iesita NR.="+vg.get("Nr"))
+            addvarti_function4(vg.get("Nr"))
             #for p in vg.iter('P'):
             #  print(p.get("Nr"))
     if (len(tmp)>1):
@@ -233,6 +234,20 @@ def my_function4(nr, iegv, rpsk):
   # Closing the connection 
   conn.close()
 #END of my_function4()
+def addplayer_function(nr, team, name, surname):#playernr,playerteam,personname,surname)
+  conn = sqlite3.connect('team.db') 
+  # Creating a cursor object using the  
+  # cursor() method 
+  cursor = conn.cursor() 
+  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  #print(len(playerdata))
+  if(len(playerdata)==0):
+    #Insert player
+    cursor.execute("INSERT INTO PLAYER VALUES ("+str(nr)+",'"+team+"','"+name+"','"+surname+"',0,0)")
+  conn.commit() 
+  # Closing the connection 
+  conn.close()
+#END of addplayer_function
 def addvarti_function4(nr):
   #print("Hello from a function")
   # Connecting to sqlite 
@@ -240,13 +255,20 @@ def addvarti_function4(nr):
   # Creating a cursor object using the  
   # cursor() method 
   cursor = conn.cursor() 
-  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
+  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  #print("LEN="+len(playerdata))
   #data3=cursor.execute("UPDATE FROM PLAYER")
-
-  print(cursor.fetchall())
+  #varti=0
+  #print(cursor.fetchall())
   print("last:")
   for row in playerdata: 
-    print(row) 
+    print(row[4])
+    varti=row[4]
+  #print("Varti="+str(varti))
+  cursor.execute("UPDATE PLAYER SET VARTI = "+str(varti+1)+" WHERE NR = "+str(nr)).fetchall()
+  cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
+  print(cursor.fetchall())
+    #print("LEN="+len(row) )
   #print(playerdata['NAME'])
   #print(playerdata[0])
   # Commit your changes in the database     
@@ -277,7 +299,7 @@ my_function2("")
 
 my_function3()
 addvarti_function4(47)
-
+#addvarti_function4(147)
 #END of main
 
 
