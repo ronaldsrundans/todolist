@@ -199,9 +199,15 @@ def my_function2(where):
   # Creating a cursor object using the  
   # cursor() method 
   cursor = conn.cursor() 
-  data3=cursor.execute("SELECT name,sum(PUN_TOT), sum(USKPM), sum(ZSKPM), sum(UZSKPL), sum(ZSKPL), sum(IEGV), sum(ZAUV) FROM TEAM "+where+" group by name order by sum(PUN_TOT) desc")
-  print(cursor.fetchall())
+  data3=cursor.execute("SELECT name,sum(PUN_TOT), sum(USKPM), sum(ZSKPM), sum(UZSKPL), sum(ZSKPL), sum(IEGV), sum(ZAUV) FROM TEAM "+where+" group by name order by sum(PUN_TOT) desc").fetchall()
+  #print(data3)
+  i=0
+  print("Vpk KNOS PUN_TOT USKPM ZSKPM UZSKPL ZSKPL IEGV ZAUV")
+  for row in data3:
+    i+=1
+    print(str(i)+" "+str(row[0])+" "+str(row[1])+" "+str(row[2])+" "+str(row[3])+" "+str(row[4])+" "+str(row[5])+" "+str(row[6]))
   # Commit your changes in the database     
+  print("")
   conn.commit() 
   # Closing the connection 
   conn.close()
@@ -336,8 +342,16 @@ def my_function8():
   # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
   cursor = conn.cursor() 
-  cursor.execute("SELECT VARDS, UZVARDS, NR , KOM_NOS, VARTI, PIESP FROM PLAYER ORDER BY VARTI DESC, PIESP DESC LIMIT 8")
-  print(cursor.fetchall())
+  data5=cursor.execute("SELECT VARDS, UZVARDS, NR , KOM_NOS, VARTI, PIESP FROM PLAYER ORDER BY VARTI DESC, PIESP DESC LIMIT 100").fetchall()
+  #print(cursor.fetchall())
+  i=0
+  print("Turnira 100 rezultativakie speletaji")
+  print("Vpk Vards Uzvards Nr Kom_Nos GVSK RPSK")
+  for row in data5:
+    i+=1
+    #print(row)
+    print(str(i)+" "+str(row[0])+" "+str(row[1])+" "+str(row[2])+" "+str(row[3])+" "+str(row[4])+" "+str(row[5]))
+
   conn.commit() 
   # Closing the connection 
   conn.close()
@@ -377,10 +391,10 @@ print("   ")
 #addsodi_function7(55)
 #my_function6(55)
 my_function8()
-print("    ")
-my_function6(39)
-my_function6(24)
-my_function6(34)
+#print("    ")
+#my_function6(39)
+#my_function6(24)
+#my_function6(34)
 
 
 #END of main
