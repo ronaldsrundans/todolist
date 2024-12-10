@@ -24,12 +24,6 @@ table = """ CREATE TABLE TEAM (
             ZAUV INT,
             RINKIS VARCHAR(255)
         ); """
-#RINKIS Name VARCHAR(255)
-"""turnīra desmit rezultatīvāko spēlētāju (sakārtoti pēc gūto vārtu skaita un 
-rezultatīvo piespēļu skaita dilstošā secībā) saraksts. Jānorāda vieta sarakstā pēc kārtas, 
-spēlētāja vārds un uzvārds, komandas nosaukums, gūto vārtu skaits un rezultatīvo piespēļu skaits. 
-Sarakstā augstāk jāatrodas spēlētājam, kas guvis vairāk vārtu, bet, vienāda gūto vārtu 
-skaita gadījumā, tam spēlētājam, kas vairāk reižu rezultatīvi piespēlējis."""
 cursor_obj.execute(table)
 table2 = """ CREATE TABLE PLAYER (
             NR INT,            
@@ -40,19 +34,9 @@ table2 = """ CREATE TABLE PLAYER (
             PIESP INT,
             SODI INT 
          ); """  
-         #
-          #  
-          #  ,
-          
-         #VARTI INT,
-          #  PIESP INT
-cursor_obj.execute(table2)
-
-#print("Table is Ready")
- 
+cursor_obj.execute(table2) 
 # Close the connection
 connection_obj.close()
-
 
 import xml.etree.ElementTree as ET
 
@@ -69,17 +53,7 @@ class Team:
     self.vpm=0
     self.vpl=0
 #END of class Team
-class Player:
-  def __init__(self, Nr, Vards, Uzvards, Kom_Nos):
-    self.Nr = Nr
-    self.Vards = Vards
-    self.Uzvards = Uzvards
-    self.Kom_Nos = Kom_Nos
-    self.GVSK=0
-    self.RPSK=0
 
-    #     GVSK       RPSK
-#END of class Player
 def my_function(i, path2,rinkis):
   tree = ET.parse(path2+'futbols'+str(i)+'.xml')
   root = tree.getroot()
@@ -87,8 +61,6 @@ def my_function(i, path2,rinkis):
   #print(root.attrib)
   tmp=[]
   nrpk=0
-  person=[]
-  #print("Neighbor2:")
   for komanda in root.iter('Komanda'):
     tmp.append(Team(komanda.get("Nosaukums")))
     nrpk+=1
@@ -99,20 +71,7 @@ def my_function(i, path2,rinkis):
             personname = speletajs.get("Vards")
             playernr=speletajs.get("Nr")
             playerteam=tmp[nrpk-1].name
-            person.append(Player(playernr, personname, surname, playerteam))
-            # Connecting to sqlite 
-            #conn = sqlite3.connect('team.db') 
-            #cursor = conn.cursor() 
-            #for p in person:
-            #print(p.Nr+" "+p.Vards+" "+p.Uzvards+" "+p.Kom_Nos)
-            #cursor.execute("INSERT INTO PLAYER VALUES ("+playernr+",'"+playerteam+"','"+personname+"','"+surname+"',0,0)")
             addplayer_function(playernr,playerteam,personname,surname)
-            #cursor.execute("INSERT INTO PLAYER VALUES ("+p.Nr+",'"+p.Kom_Nos+"','"+p.Vards+"','"+p.Uzvards+"',0,0)")
-            #,'"+p.Kom_Nos+"','"+p.Vards+"','"+p.Uzvards+"')") 
-            #conn.commit() 
-            #conn.close()
-
-            #print(name, rank)
     #print("_ Komandas sodi: ")
     """
     for sodi in komanda.iter('Sodi'):
@@ -139,19 +98,6 @@ def my_function(i, path2,rinkis):
               #  print(p.get("Nr"))
     if (len(tmp)>1):
       #print("Ieliek zaudētie vārti:")
-      #speletaji
-      """
-      # Connecting to sqlite 
-      conn = sqlite3.connect('team.db') 
-      cursor = conn.cursor() 
-      for p in person:
-        print(p.Nr+" "+p.Vards+" "+p.Uzvards+" "+p.Kom_Nos)
-        cursor.execute("INSERT INTO PLAYER VALUES ("+p.Nr+",'"+p.Kom_Nos+"','"+p.Vards+"','"+p.Uzvards+"',0,0)")
-        #,'"+p.Kom_Nos+"','"+p.Vards+"','"+p.Uzvards+"')") 
-      conn.commit() 
-      conn.close()
-      """
-      # end of speletaji#
       tmp[0].ZAUV+=(tmp[1].vpl+tmp[1].vpm )
       tmp[1].ZAUV+=(tmp[0].vpl+tmp[0].vpm )
       #print("Ieliek punkti:")
@@ -178,11 +124,7 @@ def my_function(i, path2,rinkis):
           tmp[0].PUN_TOT+=1
           tmp[1].PUN_TOT+=5
           tmp[1].USKPM+=1
-          tmp[0].ZSKPM+=1
-              
-
-
-    #print("Statistics:")
+          tmp[0].ZSKPM+=1           
     # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
   cursor = conn.cursor() 
@@ -193,8 +135,6 @@ def my_function(i, path2,rinkis):
 #ENDof my_function()
 
 def my_function2(where):
-  #print("Hello from a function")
-  # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
   # Creating a cursor object using the  
   # cursor() method 
@@ -211,106 +151,55 @@ def my_function2(where):
   conn.commit() 
   # Closing the connection 
   conn.close()
-
 #END of my_function2()
+
 def my_function3():
-  #print("Hello from a function")
-  # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
-  # Creating a cursor object using the  
-  # cursor() method 
   cursor = conn.cursor() 
-  data3=cursor.execute("SELECT * FROM PLAYER")
-  #print(cursor.fetchall())
-  # Commit your changes in the database     
+  data3=cursor.execute("SELECT * FROM PLAYER")  
   conn.commit() 
-  # Closing the connection 
   conn.close()
 #END of my_function3()
-def my_function4(nr, iegv, rpsk):
-  #print("Hello from a function")
-  # Connecting to sqlite 
-  conn = sqlite3.connect('team.db') 
-  # Creating a cursor object using the  
-  # cursor() method 
-  cursor = conn.cursor() 
-  #data3=cursor.execute("SELECT * FROM PLAYER")
-  data3=cursor.execute("UPDATE FROM PLAYER")
 
-  #print(cursor.fetchall())
-  # Commit your changes in the database     
+def my_function4(nr, iegv, rpsk):
+  conn = sqlite3.connect('team.db') 
+  cursor = conn.cursor() 
+  data3=cursor.execute("UPDATE FROM PLAYER")
   conn.commit() 
-  # Closing the connection 
   conn.close()
 #END of my_function4()
+
 def addplayer_function(nr, team, name, surname):#playernr,playerteam,personname,surname)
   conn = sqlite3.connect('team.db') 
-  # Creating a cursor object using the  
-  # cursor() method 
   cursor = conn.cursor() 
   playerdata=cursor.execute("SELECT DISTINCT * FROM PLAYER WHERE NR="+str(nr)+" AND VARDS='"+name+"' AND UZVARDS='"+surname+"' AND KOM_NOS='"+team+"'").fetchall()
-  #print(len(playerdata))
   if(len(playerdata)==0):
-    #Insert player
     cursor.execute("INSERT INTO PLAYER VALUES ("+str(nr)+",'"+team+"','"+name+"','"+surname+"',0,0,0)")
   conn.commit() 
-  # Closing the connection 
   conn.close()
 #END of addplayer_function
+
 def addvarti_function4(nr, team):
-  #print("Hello from a function")
-  # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
-  # Creating a cursor object using the  
-  # cursor() method 
   cursor = conn.cursor() 
   playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
-  #print("LEN="+len(playerdata))
-  #data3=cursor.execute("UPDATE FROM PLAYER")
   varti=0
-  #print(cursor.fetchall())
-  #print("last:")
   for row in playerdata: 
-    #print(row[4])
     varti=row[4]
-  #print("Varti="+str(varti))
   cursor.execute("UPDATE PLAYER SET VARTI = "+str(varti+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
-  #cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
-  #print(cursor.fetchall())
-    #print("LEN="+len(row) )
-  #print(playerdata['NAME'])
-  #print(playerdata[0])
-  # Commit your changes in the database     
   conn.commit() 
-  # Closing the connection 
   conn.close()
 #END of my_function4()
+
 def addpiesp_function5(nr, team):
-  #print("Hello from a function")
-  # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
-  # Creating a cursor object using the  
-  # cursor() method 
   cursor = conn.cursor() 
   playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
-  #print("LEN="+len(playerdata))
-  #data3=cursor.execute("UPDATE FROM PLAYER")
   piesp=0
-  #print(cursor.fetchall())
-  #print("last:")
   for row in playerdata: 
-    #print(row[5])
     piesp=row[5]
-  #print("Varti="+str(varti))
-  cursor.execute("UPDATE PLAYER SET PIESP = "+str(piesp+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
-  #cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
-  #print(cursor.fetchall())
-    #print("LEN="+len(row) )
-  #print(playerdata['NAME'])
-  #print(playerdata[0])
-  # Commit your changes in the database     
+  cursor.execute("UPDATE PLAYER SET PIESP = "+str(piesp+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()  
   conn.commit() 
-  # Closing the connection 
   conn.close()
 #END of my_function5()
 def my_function6(nr):#Print player info
@@ -339,21 +228,16 @@ def addsodi_function7(nr):
 #END of my_function7()
 def my_function8():
 #print("Hello from a function")
-  # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
   cursor = conn.cursor() 
   data5=cursor.execute("SELECT VARDS, UZVARDS, NR , KOM_NOS, VARTI, PIESP FROM PLAYER ORDER BY VARTI DESC, PIESP DESC LIMIT 100").fetchall()
-  #print(cursor.fetchall())
   i=0
   print("Turnira 100 rezultativakie speletaji")
   print("Vpk Vards Uzvards Nr Kom_Nos GVSK RPSK")
   for row in data5:
     i+=1
-    #print(row)
     print(str(i)+" "+str(row[0])+" "+str(row[1])+" "+str(row[2])+" "+str(row[3])+" "+str(row[4])+" "+str(row[5]))
-
   conn.commit() 
-  # Closing the connection 
   conn.close()
 #END of my_function8()
 
@@ -372,13 +256,9 @@ for i in range (0,3):
   #print(i)
   my_function(i, path1,'2.rinkis')
 my_function2(w2)
-#w3=" WHERE RINKIS='1.rinkis' AND WHERE RINKIS='2.rinkis'"
-#my_function2(w3)
 print("1.un 2.rinkis")
 my_function2("")
-
 my_function3()
-
 print("   ")
 #addvarti_function4(47)
 #addvarti_function4(47)
@@ -399,16 +279,4 @@ my_function8()
 
 #END of main
 
-
-
-"""turnīra tabulu (komandas vieta tabulā pēc kārtas, nosaukums, 
-    iegūto punktu skaits, uzvaru un zaudējumu skaits pamatlaikā, 
-    uzvaru un zaudējumu skaits papildlaikā, spēlēs gūto un zaudēto vārtu skaits). 
-    Augstākā vietā jāatrodas komandai, kurai ir vairāk punktu.
-    turnīra desmit rezultatīvāko spēlētāju (sakārtoti pēc gūto vārtu skaita un 
-    rezultatīvo piespēļu skaita dilstošā secībā) saraksts. 
-    Jānorāda vieta sarakstā pēc kārtas, spēlētāja vārds un uzvārds, 
-    komandas nosaukums, gūto vārtu skaits un rezultatīvo piespēļu skaits. 
-    Sarakstā augstāk jāatrodas spēlētājam, kas guvis vairāk vārtu, bet, 
-    vienāda gūto vārtu skaita gadījumā, tam spēlētājam, kas vairāk reižu rezultatīvi piespēlējis."""
 
