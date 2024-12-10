@@ -37,7 +37,8 @@ table2 = """ CREATE TABLE PLAYER (
             VARDS VARCHAR(255) NOT NULL,
             UZVARDS VARCHAR(255) NOT NULL,
             VARTI INT,
-            PIESP INT
+            PIESP INT,
+            SODI INT 
          ); """  
          #
           #  
@@ -130,10 +131,11 @@ def my_function(i, path2,rinkis):
               #print("Pamatlaiks!")
               tmp[nrpk-1].IEGV+=1
               tmp[nrpk-1].vpm+=1
-            print("Vārtus iesita NR.="+vg.get("Nr"))
+            #print("Vārtus iesita NR.="+vg.get("Nr"))
             addvarti_function4(vg.get("Nr"))
-            #for p in vg.iter('P'):
-            #  print(p.get("Nr"))
+            for pie in vg.iter('P'):
+              addpiesp_function5(pie.get("Nr"))
+              #  print(p.get("Nr"))
     if (len(tmp)>1):
       #print("Ieliek zaudētie vārti:")
       #speletaji
@@ -243,7 +245,7 @@ def addplayer_function(nr, team, name, surname):#playernr,playerteam,personname,
   #print(len(playerdata))
   if(len(playerdata)==0):
     #Insert player
-    cursor.execute("INSERT INTO PLAYER VALUES ("+str(nr)+",'"+team+"','"+name+"','"+surname+"',0,0)")
+    cursor.execute("INSERT INTO PLAYER VALUES ("+str(nr)+",'"+team+"','"+name+"','"+surname+"',0,0,0)")
   conn.commit() 
   # Closing the connection 
   conn.close()
@@ -258,14 +260,67 @@ def addvarti_function4(nr):
   playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
   #print("LEN="+len(playerdata))
   #data3=cursor.execute("UPDATE FROM PLAYER")
-  #varti=0
+  varti=0
   #print(cursor.fetchall())
-  print("last:")
+  #print("last:")
   for row in playerdata: 
-    print(row[4])
+    #print(row[4])
     varti=row[4]
   #print("Varti="+str(varti))
   cursor.execute("UPDATE PLAYER SET VARTI = "+str(varti+1)+" WHERE NR = "+str(nr)).fetchall()
+  #cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
+  #print(cursor.fetchall())
+    #print("LEN="+len(row) )
+  #print(playerdata['NAME'])
+  #print(playerdata[0])
+  # Commit your changes in the database     
+  conn.commit() 
+  # Closing the connection 
+  conn.close()
+#END of my_function4()
+def addpiesp_function5(nr):
+  #print("Hello from a function")
+  # Connecting to sqlite 
+  conn = sqlite3.connect('team.db') 
+  # Creating a cursor object using the  
+  # cursor() method 
+  cursor = conn.cursor() 
+  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  #print("LEN="+len(playerdata))
+  #data3=cursor.execute("UPDATE FROM PLAYER")
+  piesp=0
+  #print(cursor.fetchall())
+  #print("last:")
+  for row in playerdata: 
+    #print(row[5])
+    piesp=row[5]
+  #print("Varti="+str(varti))
+  cursor.execute("UPDATE PLAYER SET PIESP = "+str(piesp+1)+" WHERE NR = "+str(nr)).fetchall()
+  #cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
+  #print(cursor.fetchall())
+    #print("LEN="+len(row) )
+  #print(playerdata['NAME'])
+  #print(playerdata[0])
+  # Commit your changes in the database     
+  conn.commit() 
+  # Closing the connection 
+  conn.close()
+#END of my_function5()
+def my_function6(nr):
+  #print("Hello from a function")
+  # Connecting to sqlite 
+  conn = sqlite3.connect('team.db') 
+  # Creating a cursor object using the  
+  # cursor() method 
+  cursor = conn.cursor() 
+  #playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  #print("LEN="+len(playerdata))
+  #data3=cursor.execute("UPDATE FROM PLAYER")
+
+  #print(cursor.fetchall())
+
+  #print("Varti="+str(varti))
+  #cursor.execute("UPDATE PLAYER SET PIESP = "+str(piesp+1)+" WHERE NR = "+str(nr)).fetchall()
   cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
   print(cursor.fetchall())
     #print("LEN="+len(row) )
@@ -275,7 +330,35 @@ def addvarti_function4(nr):
   conn.commit() 
   # Closing the connection 
   conn.close()
-#END of my_function4()
+#END of my_function6()
+def addsodi_function7(nr):
+#print("Hello from a function")
+  # Connecting to sqlite 
+  conn = sqlite3.connect('team.db') 
+  # Creating a cursor object using the  
+  # cursor() method 
+  cursor = conn.cursor() 
+  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  #print("LEN="+len(playerdata))
+  #data3=cursor.execute("UPDATE FROM PLAYER")
+  sodi=0
+  #print(cursor.fetchall())
+  #print("last:")
+  for row in playerdata: 
+    #print(row[6])
+    sodi=row[6]#sodi
+  #print("Varti="+str(varti))
+  cursor.execute("UPDATE PLAYER SET SODI = "+str(sodi+1)+" WHERE NR = "+str(nr)).fetchall()
+  #cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ")
+  #print(cursor.fetchall())
+    #print("LEN="+len(row) )
+  #print(playerdata['NAME'])
+  #print(playerdata[0])
+  # Commit your changes in the database     
+  conn.commit() 
+  # Closing the connection 
+  conn.close()
+#END of my_function7()
 
 #main
 path="/home/ubuntu/Documents/ModProgrMet/PD2/XML_TestData/XMLFirstRound/"
@@ -298,8 +381,14 @@ print("1.un 2.rinkis")
 my_function2("")
 
 my_function3()
-addvarti_function4(47)
+#addvarti_function4(47)
+#addvarti_function4(47)
+
 #addvarti_function4(147)
+my_function6(55)
+addsodi_function7(55)
+my_function6(55)
+
 #END of main
 
 
