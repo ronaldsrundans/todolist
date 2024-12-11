@@ -72,12 +72,15 @@ def my_function(i, path2,rinkis):
             playernr=speletajs.get("Nr")
             playerteam=tmp[nrpk-1].name
             addplayer_function(playernr,playerteam,personname,surname)
-    #print("_ Komandas sodi: ")
-    """
+    print("_ Komandas sodi: ")
+    
     for sodi in komanda.iter('Sodi'):
         for sods in sodi.iter('Sods'):
             print(sods.attrib)
-    """
+            playernr=sods.get("Nr")
+            playerteam=tmp[nrpk-1].name
+            addsodi_function7(playernr,playerteam)
+    
     #print("_ Komandas varti: ")
     for varti in komanda.iter('Varti'):
         for vg in varti.iter('VG'):
@@ -125,7 +128,6 @@ def my_function(i, path2,rinkis):
           tmp[1].PUN_TOT+=5
           tmp[1].USKPM+=1
           tmp[0].ZSKPM+=1           
-    # Connecting to sqlite 
   conn = sqlite3.connect('team.db') 
   cursor = conn.cursor() 
   cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[0].name+"', '"+str(tmp[0].PUN_TOT)+"', '"+str(tmp[0].USKPM)+"','"+str(tmp[0].ZSKPM)+"','"+str(tmp[0].UZSKPL)+"','"+str(tmp[0].ZSKPL)+"','"+str(tmp[0].IEGV)+"','"+str(tmp[0].ZAUV)+"','"+rinkis+"')") 
@@ -136,20 +138,15 @@ def my_function(i, path2,rinkis):
 
 def my_function2(where):
   conn = sqlite3.connect('team.db') 
-  # Creating a cursor object using the  
-  # cursor() method 
   cursor = conn.cursor() 
   data3=cursor.execute("SELECT name,sum(PUN_TOT), sum(USKPM), sum(ZSKPM), sum(UZSKPL), sum(ZSKPL), sum(IEGV), sum(ZAUV) FROM TEAM "+where+" group by name order by sum(PUN_TOT) desc").fetchall()
-  #print(data3)
   i=0
   print("Vpk KNOS PUN_TOT USKPM ZSKPM UZSKPL ZSKPL IEGV ZAUV")
   for row in data3:
     i+=1
     print(str(i)+" "+str(row[0])+" "+str(row[1])+" "+str(row[2])+" "+str(row[3])+" "+str(row[4])+" "+str(row[5])+" "+str(row[6]))
-  # Commit your changes in the database     
   print("")
   conn.commit() 
-  # Closing the connection 
   conn.close()
 #END of my_function2()
 
@@ -210,18 +207,16 @@ def my_function6(nr):#Print player info
   conn.commit() 
   conn.close()
 #END of my_function6()
-def addsodi_function7(nr):
-#print("Hello from a function")
-  # Connecting to sqlite 
+def addsodi_function7(nr, team):
   conn = sqlite3.connect('team.db') 
   cursor = conn.cursor() 
-  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" ").fetchall()
+  playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
   sodi=0
   for row in playerdata: 
     #print(row[6])
     sodi=row[6]#sodi
   #print("Varti="+str(varti))
-  cursor.execute("UPDATE PLAYER SET SODI = "+str(sodi+1)+" WHERE NR = "+str(nr)).fetchall() 
+  cursor.execute("UPDATE PLAYER SET SODI = "+str(sodi+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall() 
   conn.commit() 
   # Closing the connection 
   conn.close()
@@ -240,6 +235,21 @@ def my_function8():
   conn.commit() 
   conn.close()
 #END of my_function8()
+def my_function9():
+#print("Hello from a function")
+  conn = sqlite3.connect('team.db') 
+  cursor = conn.cursor() 
+  data5=cursor.execute("SELECT VARDS, UZVARDS, NR , KOM_NOS, SODI FROM PLAYER ORDER BY SODI DESC LIMIT 100").fetchall()
+  i=0
+  print("Turnira 100 rupjāmkie speletaji")
+  print("Vpk Vards Uzvards Nr Kom_Nos Sodi")
+  for row in data5:
+    i+=1
+    print(str(i)+" "+str(row[0])+" "+str(row[1])+" "+str(row[2])+" "+str(row[3])+" "+str(row[4]))
+  conn.commit() 
+  conn.close()
+#END of my_function9()
+
 
 #main
 path="/home/ubuntu/Documents/ModProgrMet/PD2/XML_TestData/XMLFirstRound/"
@@ -272,10 +282,11 @@ print("   ")
 #my_function6(55)
 my_function8()
 #print("    ")
-#my_function6(39)
+#print("Vai ir sods?")
+#my_function6(96)
 #my_function6(24)
 #my_function6(34)
-
+my_function9()
 
 #END of main
 
