@@ -166,18 +166,18 @@ def readinputfile(i, filepath,rinkis):
   cursor.execute("INSERT INTO TEAM VALUES ('"+tmp[1].name+"', '"+str(tmp[1].PUN_TOT)+"', '"+str(tmp[1].USKPM)+"','"+str(tmp[1].ZSKPM)+"','"+str(tmp[1].UZSKPL)+"','"+str(tmp[1].ZSKPL)+"','"+str(tmp[1].IEGV)+"','"+str(tmp[1].ZAUV)+"', '"+rinkis+"')") 
   conn.commit() 
   conn.close()
-  print("ENDtime= "+endtime)
+  #print("ENDtime= "+endtime)
   speleslaiks=endtime.split(":")
   endtimesec=int(speleslaiks[0])*60+int(speleslaiks[1])
   
-  print(tmp[0].mainaT)
+  #print(tmp[0].mainaT)
   for i in range(2):
     for k1 in tmp[i].mainaNr1:
-      print(k1)
+      #print(k1)
       tmp[i].laukuma.remove(k1)
     c=0
     for k2 in tmp[i].mainaNr2:
-      print(k2)     
+      #print(k2)     
       mainaTsec=tmp[i].mainaT[c].split(":")
       addTime(j,tmp[i].name, int(endtimesec)-int(60*mainaTsec[0]+mainaTsec[0])) 
       c+=1
@@ -307,8 +307,10 @@ def addTime(nr,team, time):
   timemin=0
   for row in playerdata: 
     timemin=row[8]#spelu LAIKS
+
   timemin=(timemin+time)
-  cursor.execute("UPDATE PLAYER SET SPELUSEC = "+str(timemin+time)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall() 
+  
+  cursor.execute("UPDATE PLAYER SET SPELUSEC ="+str(timemin+time)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall() 
   conn.commit() 
   conn.close()
   #END of addTime()
@@ -319,8 +321,8 @@ def addKarteDz(nr,team):
   playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
   dzkarte=0
   for row in playerdata: 
-    dzkarte=row[9]#spelu sk
-  cursor.execute("UPDATE PLAYER SET SPELUSK = "+str(dzkarte+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall() 
+    dzkarte=row[9]#dzeltenās kartes
+  cursor.execute("UPDATE PLAYER SET KARTEDZE = "+str(dzkarte+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall() 
   conn.commit() 
   conn.close()
   #END of addKarteDz()
@@ -328,10 +330,20 @@ def addKarteSar(nr,team):
   conn = sqlite3.connect('team.db') 
   cursor = conn.cursor() 
   playerdata=cursor.execute("SELECT * FROM PLAYER WHERE NR="+str(nr)+" AND KOM_NOS='"+team+"'").fetchall()
-  dzkarte=0
+  sarkarte=0
   for row in playerdata: 
-    dzkarte=row[9]#spelu sk
-  cursor.execute("UPDATE PLAYER SET SPELUSK = "+str(dzkarte+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall() 
+    sarkarte=row[10]#sarkanas kartes
+  cursor.execute("UPDATE PLAYER SET SKARTESAR = "+str(sarkarte+1)+" WHERE NR = "+str(nr)+" AND KOM_NOS='"+team+"'").fetchall() 
+  conn.commit() 
+  conn.close()
+#END of addKarteSar()
+def FullPlayerStatistics():
+  conn = sqlite3.connect('team.db') 
+  cursor = conn.cursor() 
+  playerdata=cursor.execute("SELECT * FROM PLAYER ORDER BY KOM_NOS").fetchall()
+  #print(playerdata)
+  for i in playerdata: 
+    print(i)
   conn.commit() 
   conn.close()
 #END of addKarteSar()
@@ -363,18 +375,21 @@ def mainTest():
   playerStatistics()
   print("   ")
   getRupjakie()
-  getPlayerInfo(9)
+  getPlayerInfo(55)
+  FullPlayerStatistics()
 #END of mainTest
+
 """visu vienas komandas spēlētāju apkopojošā statistika, par katru spēlētāju norādot tā numuru, 
 vārdu, uzvārdu, nospēlēto spēļu skaitu, nospēlēto spēļu skaits pamatsastāvā, nospēlētās minūtes, 
 iesisto vārtu un rezultatīvo piespēļu skaits, saņemtās dzeltenās kartītes, saņemtās sarkanās kartītes. 
 Spēlētājs ir spēlējis spēli, ja viņš tajā ir piedalījies kaut vienu sekundi. Atsevišķi jāveido vārtsargu 
 statistika - nospēlēto spēļu skaits, ielaistie vārti, vidēji vienā spēlē ielaistie vārti."""
 def main():
-  path="/home/ubuntu/Documents/ModProgrMet/PD2/"
-  message=" WHERE RINKIS='1.rinkis'"
+  #path="/home/ubuntu/Documents/ModProgrMet/PD2/"
+  path=""
+  message=""#" WHERE RINKIS='1.rinkis'"
   #print("1.rinkis")
-  for i in range (0,3):#faila nosaukums: futbols+ i .xml
+  for i in range (0,100):#faila nosaukums: futbols+ i .xml
     readinputfile(i, path,"")
   teamStatistics("")
   playerStatistics()
